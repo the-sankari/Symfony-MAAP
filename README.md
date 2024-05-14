@@ -19,14 +19,14 @@ docker-compose up --build
 - phpMyAdmin will run on [http://localhost:9082](http://localhost:9082)
 
 ### Optional: Apple M1 Chip
-You may have to Uncomment line 4, remove # from [docker-compose.yml](https://github.com/kalwar/Symfony-MAMP/blob/main/docker-compose.yml#L4)  file
+
+You may have to Uncomment line 4, remove # from [docker-compose.yml](https://github.com/kalwar/Symfony-MAMP/blob/main/docker-compose.yml#L4) file
 
 # Use for reference
 
 Use solely for reference material only
 
 ## Authors
+
 - [@kalwar](https://www.github.com/kalwar)
-
-
-
+- [@kajol](https://www.github.com/the-sankari)
