@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
+  const [massage, setMassage] = useState("");
 
   useEffect(() => {
     axios
@@ -24,16 +24,34 @@ const ProjectList = () => {
   };
 
   const handleDelete = (projectId) => {
-    // Logic to handle delete
-    console.log("Delete project with id:", projectId);
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      axios
+        .delete(`http://localhost:8007/api/projects/${projectId}`)
+        .then((res) => {
+          console.log(res);
+          setProjects((prevProjects) =>
+            prevProjects.filter((project) => {
+              project.id !== projectId;
+              const massage = `${projectId}: ${project.name} deleted successfully with status code:",
+              ${res.status}`;
+              setMassage(massage);
+            })
+          );
+        })
+        .catch((err) => {
+          alert("Error deleting project");
+          console.log(err);
+        });
+      console.log("Delete project with id:", projectId);
+    }
   };
 
   return (
-    <div>
-      <h1>Project List</h1>
-      <table>
-        <thead>
-          <tr>
+    <div className="container table-responsive">
+      <table className="table table align-middle table-hover table-striped table-bordered caption-top">
+        <caption>Project List</caption>
+        <thead >
+          <tr className="table-info">
             <th>Project Name</th>
             <th>Description</th>
             <th>Actions</th>
@@ -44,14 +62,25 @@ const ProjectList = () => {
             <tr key={project.id}>
               <td>{project.name}</td>
               <td>{project.description}</td>
-              <td>
-                <button onClick={() => handleEdit(project.id)}>Edit</button>
-                <button onClick={() => handleDelete(project.id)}>Delete</button>
+              <td className="g-3">
+                <button
+                  className="btn btn-success "
+                  onClick={() => handleEdit(project.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger "
+                  onClick={() => handleDelete(project.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <p>{massage}</p>
     </div>
   );
 };
