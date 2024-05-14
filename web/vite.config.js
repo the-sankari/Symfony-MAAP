@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        app: "./react/src/main.jsx",
+        app: "./frontend/src/main.jsx",
       },
     },
   },
