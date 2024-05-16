@@ -77,17 +77,23 @@ class ProjectController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/projects/{id}', name: 'project_update', methods: ['put', 'patch'])]
+    #[Route('/projects/{id}', name: 'project_update', methods: ['put', 'patch'], requirements: ['id' => '\d+'])]
     public function update(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
     {
+        $content = $request->getContent();
+        $data = json_decode($content, true);
+
+        $name = $data['name'] ?? null;
+        $description = $data['description'] ?? null;
+
         $project = $entityManager->getRepository(Project::class)->find($id);
 
         if (!$project) {
             return $this->json('No project found for id ' . $id, 404);
         }
 
-        $project->setName($request->request->get('name'));
-        $project->setDescription($request->request->get('description'));
+        $project->setName($name);
+        $project->setDescription($description);
         $entityManager->flush();
 
         $data = [
